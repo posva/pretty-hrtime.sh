@@ -1,0 +1,6 @@
+test:
+  override:
+    - zsh --version
+    - ./all-tests.sh zsh
+    - bash --version
+    - ./all-tests.sh bash
