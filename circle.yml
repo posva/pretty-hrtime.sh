@@ -4,3 +4,7 @@ test:
     - ./all-tests.sh zsh
     - bash --version
     - ./all-tests.sh bash
+
+dependencies:
+  override:
+    - sudo apt-get install -y zsh
