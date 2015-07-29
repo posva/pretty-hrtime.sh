@@ -15,7 +15,7 @@ $ start=$(perl -e 'use Time::HiRes qw( gettimeofday ); my ($a, $b) = gettimeofda
 $ seconds=$(echo "$start" | cut -d ' ' -f 1) 
 $ nanoseconds=$(echo "$start" | cut -d ' ' -f 2) 
 $ elapsed=$(perl -e 'use Time::HiRes qw( gettimeofday ); my ($a, $b) = gettimeofday; $ts = $a - '"$seconds"'; $tn = $b * 1000 - '"$nanoseconds"'; print "$ts $tn";')
-$ ptime $(echo "$elapsed)
+$ ptime $(echo "$elapsed")
 6.39 s
 
 $ ptime 37 310000000
