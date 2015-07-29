@@ -1,24 +1,35 @@
 # Pretty High Resolution Time
 # Display elapsed time in a pretty format
-# Created by posva: https://github.com/posva/pretty-hrtime
+# Created by Eduardo San Martin Morote aka posva:
+# https://github.com/posva/pretty-hrtime.sh
 #
 # This was highly inspired by the node module pretty-hrtime created by robrich
 # at https://github.com/robrich/pretty-hrtime
 
 _desc=(d:86400:day h:3600:hour m:60:minute s:1:second ms:1000000:millisecond μs:1000:microsecond ns:1:nanosecond)
 ptime() {
-  local result s ns amount unit convert lconvert precise verbose tmp_str long
-  # TODO check arguments
-  # TODO check options
+  local result s ns amount unit convert lconvert verbose tmp_str long
+  for i in "$@"; do
+    case $i in
+      -v|--verbose)
+        verbose=YES
+        shift
+        ;;
+      -l|--long)
+        long=YES
+        shift
+        ;;
+      -[a-z0-9]|--*)
+        echo "[ptime] Option $i doesn't exists" >&2
+        shift
+        ;;
+    esac
+  done
   s="$1"
   ns="$2"
-  for unit in ${_desc[@]}; do
-    convert=$(echo "$unit" | cut -d: -f2)
-    if [[ -z "$verbose" ]]; then
-      unit=$(echo "$unit" | cut -d: -f1)
-    else
-      unit=$(echo "$unit" | cut -d: -f3)
-    fi
+  for desc in ${_desc[@]}; do
+    convert=$(echo "$desc" | cut -d: -f2)
+    unit=$(echo "$desc" | cut -d: -f1)
     # Use the seconds or the nanoseconds amount
     if echo "$unit" | grep '.s$' > /dev/null; then
       amount="$ns"
@@ -35,7 +46,7 @@ ptime() {
     fi
     if [[ "$val" -ge 100 ]]; then
       # Don't print to many decimals
-      if [[ -z "$precise" && "$val" -ge 1000 ]]; then
+      if [[ "$long" = YES || "$val" -ge 1000 ]]; then
         (( val /= 100 ))
         tmp_str="$val"
       else
@@ -48,7 +59,13 @@ ptime() {
       if [[ ! -z "$result" ]]; then
         result="$result "
       fi
+      if [[ "$verbose" = YES ]]; then
+        unit=$(echo "$desc" | cut -d: -f3)
+      fi
       result="${result}${tmp_str} $unit"
+      if [[ "$verbose" = YES && "$tmp_str" != 1 ]]; then
+        result="${result}s"
+      fi
       if [[ -z "$long" ]]; then
         break
       fi
@@ -58,7 +75,11 @@ ptime() {
   done
 
   if [[ -z "$result" ]]; then
-    echo "0 s"
+    if [[ -z "$verbose" ]]; then
+      echo "0 s"
+    else
+      echo "0 seconds"
+    fi
   else
     echo "$result"
   fi
