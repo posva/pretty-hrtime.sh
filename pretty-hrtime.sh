@@ -56,7 +56,7 @@ ptime() {
           tmp_str=0
         fi
       fi
-      if [[ ! -z "$result" ]]; then
+      if [[ -n "$result" ]]; then
         result="$result "
       fi
       if [[ "$verbose" = YES ]]; then
