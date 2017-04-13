@@ -1,14 +1,14 @@
-pretty-hrtime.sh [![Circle CI](https://circleci.com/gh/posva/pretty-hrtime.sh.svg?style=svg)](https://circleci.com/gh/posva/pretty-hrtime.sh)
+# pretty-hrtime.sh [![Circle CI](https://circleci.com/gh/posva/pretty-hrtime.sh.svg?style=svg)](https://circleci.com/gh/posva/pretty-hrtime.sh)
 ===
 
 Simple shell function to display precise elapsed time.
 
-###Usage
+## Usage
 ```bash
 ptime [-v|--verbose] [-l|--long] seconds [nanoseconds]
 ```
 
-###Examples
+## Examples
 ```bash
 # Simple example displaying elapsed time using perl
 $ start=$(perl -e 'use Time::HiRes qw( gettimeofday ); my ($a, $b) = gettimeofday; $ts = $a; $tn = $b * 1000; print "$ts $tn";')
@@ -34,6 +34,6 @@ $ ptime -v 1
 1 second
 ```
 
-###Projects using `pretty-hrtime.sh`
+## Projects using `pretty-hrtime.sh`
 
 - [task-logger.sh](https://github.com/posva/task-logger.sh)
