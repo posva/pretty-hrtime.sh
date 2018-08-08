@@ -1,0 +1,15 @@
+version: 2
+
+
+jobs:
+  build:
+    docker:
+      - image: posva/alpine-git-bash-zsh
+
+    working_directory: ~/repo
+
+    steps:
+      - checkout
+
+      - run: ./all-tests.sh bash
+      - run: ./all-tests.sh zsh
