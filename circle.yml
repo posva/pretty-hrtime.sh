@@ -1,10 +1,25 @@
-test:
-  override:
-    - zsh --version
-    - ./all-tests.sh zsh
-    - bash --version
-    - ./all-tests.sh bash
+# test:
+#   override:
+#     - zsh --version
+#     - ./all-tests.sh zsh
+#     - bash --version
+#     - ./all-tests.sh bash
 
-dependencies:
-  override:
-    - sudo apt-get install -y zsh
+# dependencies:
+#   override:
+#     - sudo apt-get install -y zsh
+
+version: 2
+
+
+jobs:
+  build:
+    docker:
+      - image: bashell/alpine-bash
+
+    working_directory: ~/repo
+
+    steps:
+      - checkout
+
+      - run: ./all-tests.sh bash
